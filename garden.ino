@@ -14,7 +14,7 @@ Log date,time,temp,light,moisture,water to sd card in csv
 */
 
 //#include <SD.h>   // read/write to SD card
-//#include <Time.h> // keep track of time
+#include <Time.h> // keep track of time
 
 const int relayPin        = 5; // this pin will drive transistor->relay->pump
 const int tempPin         = 0; // analog read temp
@@ -38,7 +38,7 @@ void setup()
   /************************************************/
   
   // setTime(hr,min,sec,day,month,yr); // set the time
-  //setTime(21,30,0,8,3,13);
+  setTime(16,33,0,9,3,13);
   
   /************************************************
   
