@@ -1,6 +1,5 @@
 /*
 
-TEST TEST
 Auto-plant-water-tron-o-matic
 
 Every 30 minutes
