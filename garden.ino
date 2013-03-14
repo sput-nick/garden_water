@@ -26,12 +26,15 @@ const int chipSelect      = 4;
 const int readTime  = 10000; // time between sensor read
 const int waterTime = 5000;// time to run pump
 
+int lightLevel, moistureLevel;
+float voltage, degreesC, degreesF;
+
 int cardReady = 0;
 File dataFile;
 
 void setup()
 {
-  Serial.begin(9600);
+  //Serial.begin(9600);
   /************************************************
   
   THIS IS REALLY IMPORTANT!!! DON'T FORGET
@@ -39,7 +42,7 @@ void setup()
   /************************************************/
   
   // setTime(hr,min,sec,day,month,yr); // set the time
-  setTime(21,10,0,9,3,13);
+  setTime(18,16,0,12,3,13);
   
   /************************************************
   
@@ -105,8 +108,7 @@ void loop()
   */
   
   // read Temp
-  float voltage, degreesC, degreesF;
-  
+   
   voltage = getVoltage(tempPin);
   degreesC = (voltage - 0.5) * 100;
   degreesF = degreesC * (9.0/5.0) +32;
@@ -119,7 +121,6 @@ void loop()
   */
   
   // read Light
-  int lightLevel;
   //lightLevel = analogRead(lightPin);
   // this is returning 0 for high light and 1023 for low light
   // maybe reverse it like this?
@@ -131,7 +132,6 @@ void loop()
   */
   
   // read Moisture
-  int moistureLevel;
   digitalWrite(moistureVoltage, HIGH); // start the sensor
   delay(1000); // wait a sec
   moistureLevel = analogRead(moisturePin); // read the value
@@ -147,9 +147,10 @@ void loop()
     // this value (707) is from
     // http://www.instructables.com/id/Garduino-Gardening-Arduino/step7/Test-and-Calibrate-Your-Sensors/
     //
-    digitalWrite(relayPin, HIGH); // turn on the pump
-    delay(waterTime); // run the pump 
-    digitalWrite (relayPin, LOW); // turn off the pump 
+    waterPlants();
+    //digitalWrite(relayPin, HIGH); // turn on the pump
+    //delay(waterTime); // run the pump 
+    //digitalWrite (relayPin, LOW); // turn off the pump 
   }
   // log data
   
@@ -209,4 +210,10 @@ void loop()
 float getVoltage(int pin)
 {
   return (analogRead(pin) * 0.004882814); // turn the 0-1023 into a 0-5 actual voltage
+}
+void waterPlants()
+{
+  digitalWrite(relayPin, HIGH); // turn on the pump
+  delay(waterTime); // run the pump 
+  digitalWrite (relayPin, LOW); // turn off the pump 
 }
